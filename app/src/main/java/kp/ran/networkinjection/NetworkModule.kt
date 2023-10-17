@@ -26,10 +26,18 @@ object NetworkModule {
     @Provides
     fun examplprovideRetrofitServiceB(): ApiService2 {
         return Retrofit.Builder()
-             .baseUrl("https://simplifiedcoding.net/demos/")
+            .baseUrl("https://simplifiedcoding.net/demos/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService2::class.java)
     }
-
+    @Singleton
+    @Provides
+    fun postExpl(): PostsApiService {
+        return Retrofit.Builder()
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(PostsApiService::class.java)
+    }
 }

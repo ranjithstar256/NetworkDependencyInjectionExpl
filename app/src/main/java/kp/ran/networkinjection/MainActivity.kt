@@ -26,11 +26,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +51,7 @@ import coil.transform.CircleCropTransformation
 import com.example.example.Articles
 import dagger.hilt.android.AndroidEntryPoint
 import kp.ran.networkinjection.ui.theme.NetworkInjectionTheme
+import retrofit2.Response
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -59,9 +62,21 @@ class MainActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     Column() {
                         Text(text = "Latest NEWS", fontSize = 32.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-                         val viewModel: MainViewModel by viewModels()
-                        viewModel.getHeroList()
-                        MovieList(applicationContext, viewModel.heroListResponse)
+                        val viewModel: MainViewModel by viewModels()
+                    ///    viewModel.getHeroList()
+                   //     MovieList(applicationContext, viewModel.heroListResponse)
+
+
+                        var some by remember {
+                            mutableStateOf("")
+                        }
+                        LaunchedEffect(Unit ){
+                            val res : Response<PostModel>? =  viewModel.postdoing(PostModel(2,6,"post example","i am some message"))
+                            some= res?.code().toString()
+                            Log.d("abc123eTAG", "result is : "+ res!!.code())
+                        }
+                        Text(text = some)
+
                     }
                 }
             }
@@ -86,8 +101,7 @@ fun MovieList(context: Context, movieList: List<Hero>) {
 
 @Composable
 fun MovieItem(context: Context, movie: Hero, index: Int, selectedIndex: Int,
-              onClick: (Int) -> Unit)
-{
+              onClick: (Int) -> Unit) {
     val backgroundColor = if (index == selectedIndex) MaterialTheme.colorScheme.primary
     else MaterialTheme.colorScheme.background
 
