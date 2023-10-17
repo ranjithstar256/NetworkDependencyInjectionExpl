@@ -6,6 +6,7 @@ import android.icu.number.Scale
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -51,22 +52,16 @@ import kp.ran.networkinjection.ui.theme.NetworkInjectionTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    //   val mainViewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NetworkInjectionTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colorScheme.background) {
                     Column() {
-
-                        //        val viewModel: MainViewModel by viewModels()
                         Text(text = "Latest NEWS", fontSize = 32.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
                          val viewModel: MainViewModel by viewModels()
-
-                    //    val mainViewModel by viewModels<MainViewModel>()
                         viewModel.getMovieList()
-                                MovieList(applicationContext, viewModel.movieListResponse)
+                        MovieList(applicationContext, viewModel.movieListResponse)
                     }
                 }
             }
@@ -90,26 +85,9 @@ fun MovieList(context: Context, movieList: List<Articles>) {
 }
 
 @Composable
-fun MovieItem(context: Context) {
-    val movie = Articles(
-        "",
-        "",
-        " articl"
-    )
-
-
-    MovieItem(context,movie = movie, 0, 0) {
-            i ->
-        Log.i("wertytest123abc", "MovieItem: "
-                +i)
-    }
-}
-
-@Composable
 fun MovieItem(context: Context, movie: Articles, index: Int, selectedIndex: Int,
               onClick: (Int) -> Unit)
 {
-
     val backgroundColor = if (index == selectedIndex) MaterialTheme.colorScheme.primary
     else MaterialTheme.colorScheme.background
 
@@ -147,8 +125,6 @@ fun MovieItem(context: Context, movie: Articles, index: Int, selectedIndex: Int,
                         .fillMaxHeight()
                         .weight(0.3f)
                 )
-
-
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
@@ -180,32 +156,5 @@ fun MovieItem(context: Context, movie: Articles, index: Int, selectedIndex: Int,
                 }
             }
         }
-    }
-    @Composable
-    fun HtmlText(html: String, modifier: Modifier = Modifier) {
-        AndroidView(
-            modifier = modifier
-                .fillMaxSize()
-                .size(33.dp),
-            factory = { context -> TextView(context) },
-            update = { it.text = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT) }
-        )
-    }
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NetworkInjectionTheme {
-        Greeting("Android")
     }
 }

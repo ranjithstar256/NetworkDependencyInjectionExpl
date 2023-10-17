@@ -7,6 +7,6 @@ import javax.inject.Inject
 class MyRepository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun fetchData(): News {
-        return apiService.getMovies() ?: throw IOException("Error fetching data")
+        return apiService.getMovies()
     }
 }
