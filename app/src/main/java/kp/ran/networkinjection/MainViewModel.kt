@@ -1,6 +1,5 @@
 package kp.ran.networkinjection
 
-
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,15 +16,24 @@ class MainViewModel @Inject constructor(private val repository: MyRepository) : 
 
 
     var movieListResponse: List<Articles> by mutableStateOf(listOf())
+    var heroListResponse: List<Hero> by mutableStateOf(listOf())
 
-    var errorMessage: String by mutableStateOf("")
 
     fun getMovieList() {
         viewModelScope.launch {
             try {
                 movieListResponse = repository.fetchData().articles
             } catch (e: Exception) {
-                errorMessage = e.message.toString()
+                Log.d("abc123TAG", "getMovieList: ${e.message})")
+            }
+        }
+    }
+    fun getHeroList() {
+        viewModelScope.launch {
+            try {
+                heroListResponse = repository.fetchHeros()
+            } catch (e: Exception) {
+                Log.d("abc123TAG", "getMovieList: ${e.message})")
             }
         }
     }

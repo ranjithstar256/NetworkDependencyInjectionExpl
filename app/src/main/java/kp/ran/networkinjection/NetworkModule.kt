@@ -21,4 +21,15 @@ object NetworkModule {
             .build()
             .create(ApiService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun examplprovideRetrofitServiceB(): ApiService2 {
+        return Retrofit.Builder()
+             .baseUrl("https://simplifiedcoding.net/demos/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService2::class.java)
+    }
+
 }
